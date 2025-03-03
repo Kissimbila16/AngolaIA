@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Cpu, Zap, BarChart3, Lock, Globe } from "lucide-react"
-
+import Bground from "@/components/animation/bg"
+import Spline from "@splinetool/react-spline"
 export default function Home() {
   return (
     <div className=" min-h-screen flex-col bg-black text-white">
+
      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
         <div className="container-center flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
           <div className="flex gap-2 items-center text-xl font-bold">
@@ -18,6 +20,7 @@ export default function Home() {
       </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+
           <div className="container-center px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-6 xl:grid-cols-[1fr_600px]">
               <div className="lg:mx-50 flex flex-col justify-center space-y-4">
@@ -32,7 +35,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button size="lg" className="inline-block rounded-lg bg-red-600 px-3 py-1 text-sm text-white">
-                    <Link href="/home" style={{textDecoration:'none',color:'white'}}> Try It Now
+                    <Link href="/duna.IA" style={{textDecoration:'none',color:'white'}}> Try It Now
                     </Link>
                    </Button>
                   <Button size="lg" variant="outline" >
@@ -42,13 +45,17 @@ export default function Home() {
               </div>
               <div className="flex items-center justify-center">
                 <div className="relative aspect-square w-full max-w-[400px] overflow-hidden rounded-xl bg-gradient-to-br from-red-600 to-black p-1">
-                  <Image
-                    src="/placeholder.svg?height=400&width=400"
-                    width={300}
-                    height={300}
-                    alt="AI Visualization"
-                    className="rounded-lg object-cover"
-                  />
+                     <video
+        width={300}
+        height={300}
+        controls
+        autoPlay
+        muted
+        className="rounded-lg object-cover"
+      >
+        <source src="/bg.mp4" type="video/mp4" />
+        Seu navegador não suporta a tag de vídeo.
+      </video>
                 </div>
               </div>
             </div>
@@ -760,6 +767,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+
+      <Bground/>
     </div>
   )
 }

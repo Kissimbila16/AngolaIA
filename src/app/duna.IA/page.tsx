@@ -23,6 +23,7 @@ import {
   Bookmark,
 } from "lucide-react"
 import { format } from "date-fns"
+import Link from "next/link"
 
 type Message = {
   id: string
@@ -113,7 +114,11 @@ export default function ChatPage() {
       <header className="border-b px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <h1 className="font-bold text-lg">dunamisAI</h1>
+          <h1 className="font-bold text-lg">
+            <Link href='/' style={{textDecoration:"none",}}>
+            dunamisAI
+            </Link>
+          </h1>
         </div>
 
         <div className="flex items-center gap-4">
@@ -226,16 +231,7 @@ export default function ChatPage() {
               <h2 className="text-lg font-medium">Current Chat</h2>
               <p className="text-sm text-muted-foreground">Started {format(new Date(), "MMM d, yyyy")}</p>
             </div>
-            <div className="ml-auto flex gap-2">
-              <Button variant="outline" size="sm">
-                <Bookmark className="mr-2 h-4 w-4" />
-                Save
-              </Button>
-              <Button variant="outline" size="sm">
-                <User className="mr-2 h-4 w-4" />
-                Share
-              </Button>
-            </div>
+          
           </div>
 
           <Separator />
