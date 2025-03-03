@@ -113,7 +113,7 @@ export default function ChatPage() {
       <header className="border-b px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <h1 className="font-bold text-lg">AI Assistant</h1>
+          <h1 className="font-bold text-lg">Angola AI</h1>
         </div>
 
         <div className="flex items-center gap-4">
@@ -246,7 +246,7 @@ export default function ChatPage() {
               {messages.length === 0 && (
                 <div className="bg-muted/50 rounded-lg p-6 text-center space-y-4">
                   <Sparkles className="h-8 w-8 text-primary mx-auto" />
-                  <h3 className="text-xl font-medium">Welcome to AI Assistant</h3>
+                  <h3 className="text-xl font-medium">Welcome to Angola AI</h3>
                   <p className="text-muted-foreground">
                     I'm here to help with your questions, provide information, and assist with various tasks. What would
                     you like to talk about today?
@@ -339,7 +339,7 @@ export default function ChatPage() {
               </Button>
             </form>
             <div className="text-xs text-center text-muted-foreground mt-2 max-w-3xl mx-auto">
-              AI Assistant may produce inaccurate information about people, places, or facts.
+              Angola AI may produce inaccurate information about people, places, or facts.
               <Button variant="link" size="sm" className="h-auto p-0 text-xs">
                 Learn more
               </Button>
