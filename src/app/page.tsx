@@ -14,7 +14,6 @@ export default function Home() {
             <Brain className="h-6 w-6 text-red-600 mx-2" />
             <span>NexusAI</span>
           </div>
- 
         </div>
       </header>
       <main className="flex-1">
@@ -637,7 +636,7 @@ export default function Home() {
 
         <section  className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
           <div className="container-center px-4 md:px-6">
-          <div className="lg:justify-center flex gap-6 lg:grid-cols-2 lg:gap-12">
+          <div className="lg:justify-center lg:flex gap-6 lg:grid-cols-2 lg:gap-12">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white">
@@ -740,22 +739,19 @@ export default function Home() {
         </section>
       </main>
       <footer className="w-full border-t border-gray-800 py-6 md:py-0">
-        <div className="container-center flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <div className="flex gap-2 items-center text-lg font-semibold">
+        <div className="container-center flex flex-col items-center justify-between gap-3 md:h-24 md:flex-row">
+          <div className="flex lg:mx-4 gap-2 items-center text-lg font-semibold">
             <Brain className="h-5 w-5 text-red-600" />
             <span>NexusAI</span>
           </div>
           <p className="text-center text-sm leading-loose text-gray-400 md:text-left">
             © 2025 NexusAI. All rights reserved.
           </p>
-          <div className="flex gap-4">
-            <Link href="#" className="text-sm text-gray-400 hover:text-white">
-              Privacy Policy
-            </Link>
+          <div className="flex gap-3 w-50">
             <Link href="#" className="text-sm text-gray-400 hover:text-white">
               Terms of Service
             </Link>
-            <Link href="#" className="text-sm text-gray-400 hover:text-white">
+            <Link href="#" style={{marginLeft:'5%'}} className="text-sm text-gray-400 hover:text-white">
               Contact
             </Link>
           </div>
