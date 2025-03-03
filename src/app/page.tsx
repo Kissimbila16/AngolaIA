@@ -1,11 +1,10 @@
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Cpu, Zap, BarChart3, Lock, Globe } from "lucide-react"
 import Bground from "@/components/animation/bg"
-import Spline from "@splinetool/react-spline"
+import Comprar from "@/components/modais"
 export default function Home() {
   return (
     <div className=" min-h-screen flex-col bg-black text-white">
@@ -38,7 +37,8 @@ com precisão sem precedentes.
                     </Link>
                    </Button>
                   <Button size="lg" variant="outline" >
-                 Github
+                  <Link href="#pricing" style={{textDecoration:'none',color:'white'}}>Planos
+                  </Link>
                   </Button>
                 </div>
               </div>
@@ -331,7 +331,7 @@ Escolha o plano perfeito para suas necessidades com nossas opções de preços f
 <CardDescription>Para indivíduos que exploram capacidades de IA</CardDescription>
 </CardHeader>
 <CardContent className="flex-1">
-<div className="text-4xl font-bold mb-2">$0</div>
+<div className="text-4xl font-bold mb-2">Grátis</div>
 <p className="text-sm text-gray-400 mb-6">Grátis para sempre</p>
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center">
@@ -366,67 +366,14 @@ Escolha o plano perfeito para suas necessidades com nossas opções de preços f
                       >
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      <span>100 consultas por mês</span>
-                    </li>
-                    <li className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 mr-2 text-red-600"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
                       <span>Suporte da comunidade</span>
-                    </li>
-                    <li className="flex items-center text-gray-400">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 mr-2"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                      </svg>
-                    <span>Recursos avançados</span>
-                    </li>
-                    <li className="flex items-center text-gray-400">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 mr-2"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                      </svg>
-                      <span>Acesso à API</span>
                     </li>
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" variant="outline">
-                  Começar
-</Button>
+                <Button size="lg" variant="outline">   <Link href="/duna.IA" style={{textDecoration:'none',color:'white'}}> Comece
+                </Link></Button>
+
 </CardFooter>
 </Card>
 
@@ -440,43 +387,9 @@ POPULAR
 <CardDescription>Para profissionais e pequenas equipes</CardDescription>
 </CardHeader>
 <CardContent className="flex-1">
-<div className="text-4xl font-bold mb-2">US$ 49</div>
+<div className="text-4xl font-bold mb-2">3.000kz</div>
 <p className="text-sm text-gray-400 mb-6">por usuário / mês</p>
                   <ul className="space-y-2 mb-6">
-                    <li className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 mr-2 text-red-600"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <span>Todos os recursos gratuitos</span>
-                    </li>
-                    <li className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 mr-2 text-red-600"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <span>Consultas ilimitadas</span>
-                    </li>
                     <li className="flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -531,7 +444,8 @@ POPULAR
                   </ul>
                 </CardContent>
                 <CardFooter>
-                <Button className="w-full" variant="outline">Assine agora</Button>
+               <Comprar name="Assine agora"/>
+
                 </CardFooter>
               </Card>
 
@@ -613,35 +527,13 @@ POPULAR
                       </svg>
                       <span>Integrações personalizadas</span>
                     </li>
-                    <li className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 mr-2 text-red-600"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <span>Garantias de SLA</span>
-                    </li>
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" variant="outline">
-                  Entre em contato com as vendas
-</Button>
+<Comprar name="Assine agora"/>
 </CardFooter>
 </Card>
 </div>
-<div className="text-center mt-6">
-<p className="text-gray-400">Todos os planos incluem um teste gratuito de 14 dias. Não é necessário cartão de crédito.</p>
-            </div>
           </div>
         </section>
 
@@ -658,7 +550,8 @@ Junte-se a milhares de organizações que já estão aproveitando o dunamisAI pa
 </p>
 </div>
 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-<Button size="lg">Comece</Button>
+<Button size="lg" className="bg-red-600">   <Link href="/duna.IA" style={{textDecoration:'none',color:'white'}}> Comece
+</Link></Button>
 <Button size="lg" variant="outline">
 Agende uma demonstração
                   </Button>
@@ -666,25 +559,6 @@ Agende uma demonstração
               </div>
               <div className="flex flex-col justify-center space-y-4">
                 <ul className="grid gap-3">
-                  <li className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </div>
-                    <span className="text-white">Teste gratuito de 14 dias com acesso total a todos os recursos</span>
-                  </li>
                   <li className="flex items-center gap-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white">
                       <svg
@@ -756,13 +630,13 @@ Agende uma demonstração
             <span>dunamisAI</span>
             </div>
 <p className="text-center text-sm leading-loose text-gray-400 md:text-left">
-© 2025 dunamisAI. Todos os direitos reservados.
+© 2025 DJK. Todos os direitos reservados.
 </p>
 <div className="flex gap-3 w-50">
 <Link href="#" className="text-sm text-gray-400 hover:text-white">
 Termos de serviço
 </Link>
-<Link href="#" style={{marginLeft:'5%'}} className="text-sm text-gray-400 hover:text-white">
+<Link href="https://github.com/Kissimbila16" style={{marginLeft:'5%'}} className="text-sm text-gray-400 hover:text-white">
 Contato
 </Link>
           </div>
