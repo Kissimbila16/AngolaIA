@@ -12,18 +12,18 @@ export default function Home() {
         <div className="container-center flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
           <div className="flex gap-2 items-center text-xl font-bold">
             <Brain className="h-6 w-6 text-red-600 mx-2" />
-            <span>NexusAI</span>
+            <span>dunamisAI</span>
           </div>
         </div>
       </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container-center px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
+            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-6 xl:grid-cols-[1fr_600px]">
+              <div className="lg:mx-50 flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white">
-                    Introducing NexusAI
+                    Introducing dunamisAI
                   </h1>
                   <p className="max-w-[600px] text-gray-400 md:text-xl">
                     The next generation of artificial intelligence that understands, learns, and adapts to your needs
@@ -31,9 +31,12 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg">Try It Now</Button>
-                  <Button size="lg" variant="outline">
-                    Learn More
+                  <Button size="lg" className="inline-block rounded-lg bg-red-600 px-3 py-1 text-sm text-white">
+                    <Link href="/home" style={{textDecoration:'none',color:'white'}}> Try It Now
+                    </Link>
+                   </Button>
+                  <Button size="lg" variant="outline" >
+                 Github
                   </Button>
                 </div>
               </div>
@@ -59,7 +62,7 @@ export default function Home() {
                 <div className="inline-block rounded-lg bg-red-600 px-3 py-1 text-sm text-white">Revolutionary</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Key Features</h2>
                 <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  NexusAI brings cutting-edge capabilities that redefine what's possible with artificial intelligence
+                  dunamisAI brings cutting-edge capabilities that redefine what's possible with artificial intelligence
                 </p>
               </div>
             </div>
@@ -128,7 +131,7 @@ export default function Home() {
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Capabilities</h2>
                 <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Explore what NexusAI can do across different domains and applications
+                  Explore what dunamisAI can do across different domains and applications
                 </p>
               </div>
             </div>
@@ -270,7 +273,7 @@ export default function Home() {
           <div className="container-center px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">See NexusAI in Action</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">See dunamisAI in Action</h2>
                 <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Experience the power and versatility of our AI through interactive demonstrations
                 </p>
@@ -284,7 +287,7 @@ export default function Home() {
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
-                  <div className="mx-auto text-sm text-gray-400">NexusAI Demo</div>
+                  <div className="mx-auto text-sm text-gray-400">dunamisAI Demo</div>
                 </div>
                 <div className="p-6 h-[400px] flex items-center justify-center">
                   <div className="text-center space-y-4">
@@ -292,9 +295,9 @@ export default function Home() {
                     <h3 className="text-xl font-medium text-white">Interactive Demo Coming Soon</h3>
                     <p className="text-gray-400">
                       Our team is putting the finishing touches on an interactive demo that will showcase the full
-                      capabilities of NexusAI.
+                      capabilities of dunamisAI.
                     </p>
-                    <Button>Join Waitlist</Button>
+                    <Button  variant="outline" >Join Waitlist</Button>
                   </div>
                 </div>
               </div>
@@ -520,7 +523,7 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Subscribe Now</Button>
+                  <Button className="w-full"  variant="outline">Subscribe Now</Button>
                 </CardFooter>
               </Card>
 
@@ -643,7 +646,7 @@ export default function Home() {
                     Ready to transform your workflow?
                   </h2>
                   <p className="max-w-[600px] text-gray-400 md:text-xl">
-                    Join thousands of organizations already leveraging NexusAI to drive innovation and efficiency.
+                    Join thousands of organizations already leveraging dunamisAI to drive innovation and efficiency.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -742,10 +745,10 @@ export default function Home() {
         <div className="container-center flex flex-col items-center justify-between gap-3 md:h-24 md:flex-row">
           <div className="flex lg:mx-4 gap-2 items-center text-lg font-semibold">
             <Brain className="h-5 w-5 text-red-600" />
-            <span>NexusAI</span>
+            <span>dunamisAI</span>
           </div>
           <p className="text-center text-sm leading-loose text-gray-400 md:text-left">
-            © 2025 NexusAI. All rights reserved.
+            © 2025 dunamisAI. All rights reserved.
           </p>
           <div className="flex gap-3 w-50">
             <Link href="#" className="text-sm text-gray-400 hover:text-white">

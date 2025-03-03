@@ -113,7 +113,7 @@ export default function ChatPage() {
       <header className="border-b px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <h1 className="font-bold text-lg">AngolaAI</h1>
+          <h1 className="font-bold text-lg">dunamisAI</h1>
         </div>
 
         <div className="flex items-center gap-4">
