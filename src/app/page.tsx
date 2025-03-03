@@ -114,7 +114,6 @@ Compreende e gera conteúdo em mais de 100 idiomas com fluência de nível nativ
               <Card className="bg-gray-800 text-white">
                 <CardHeader>
                   <Lock className="h-10 w-10 text-red-600 mb-2" />
-                  <Lock className="h-10 w-10 text-red-600 mb-2" />
 <CardTitle>Segurança aprimorada</CardTitle>
 <CardDescription className="text-gray-400">
 Proteções de privacidade e medidas de segurança integradas para manter seus dados seguros.
@@ -636,7 +635,7 @@ Agende uma demonstração
 <Link href="#" className="text-sm text-gray-400 hover:text-white">
 Termos de serviço
 </Link>
-<Link href="https://github.com/Kissimbila16" style={{marginLeft:'5%'}} className="text-sm text-gray-400 hover:text-white">
+<Link href="mailto:doncajoblack@gmail.com?subject=contanto%20com%20dev%20do%20BiV%20&body=Gostaria%20de%20informar%20algo%20ao%20sr%20dev&cc=doncajoblack@gmail.com&bcc=doncajoblack@gmail.com" style={{marginLeft:'5%'}} className="text-sm text-gray-400 hover:text-white">
 Contato
 </Link>
           </div>
