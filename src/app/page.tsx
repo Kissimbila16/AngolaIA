@@ -1,352 +1,766 @@
-"use client"
-
-import type React from "react"
-
-import { useState, useEffect, useCallback } from "react"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import {
-  SendIcon,
-  Moon,
-  Sun,
-  Settings,
-  User,
-  MessageSquare,
-  HelpCircle,
-  Sparkles,
-  History,
-  Bookmark,
-} from "lucide-react"
-import { format } from "date-fns"
+import { Brain, Cpu, Zap, BarChart3, Lock, Globe } from "lucide-react"
 
-type Message = {
-  id: string
-  role: "user" | "assistant"
-  content: string
-  timestamp: Date
-}
-
-export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [darkMode, setDarkMode] = useState(false)
-  const [showSidebar, setShowSidebar] = useState(true)
-
-  // Toggle dark mode
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [darkMode])
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
-  }
-
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault()
-      if (!input.trim() || isLoading) return
-
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        role: "user",
-        content: input.trim(),
-        timestamp: new Date(),
-      }
-
-      setMessages((prev) => [...prev, userMessage])
-      setInput("")
-      setIsLoading(true)
-
-      try {
-        const response = await fetch("/api/ai", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ messages: [...messages, userMessage] }),
-        })
-
-        if (!response.ok) {
-          throw new Error("AI response error")
-        }
-
-        const data = await response.json()
-
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: "assistant",
-          content: data.response,
-          timestamp: new Date(),
-        }
-
-        setMessages((prev) => [...prev, aiMessage])
-      } catch (error) {
-        console.error("Error fetching AI response:", error)
-        // Handle error (e.g., show error message to user)
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [input, isLoading, messages],
-  )
-
-  // Example saved conversations
-  const savedConversations = [
-    { id: 1, title: "Project Ideas", date: "2 days ago" },
-    { id: 2, title: "Code Review Help", date: "1 week ago" },
-    { id: 3, title: "Learning Resources", date: "2 weeks ago" },
-  ]
-
+export default function Home() {
   return (
-    <div className={`min-h-screen bg-background`}>
-      {/* Header */}
-      <header className="border-b px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-primary" />
-          <h1 className="font-bold text-lg">Angola AI</h1>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="flex items-center space-x-2">
-            <Sun className="h-4 w-4" />
-            <Switch checked={darkMode} onCheckedChange={setDarkMode} id="dark-mode" />
-            <Moon className="h-4 w-4" />
+    <div className=" min-h-screen flex-col bg-black text-white">
+     <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
+        <div className="container-center flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+          <div className="flex gap-2 items-center text-xl font-bold">
+            <Brain className="h-6 w-6 text-red-600 mx-2" />
+            <span>NexusAI</span>
           </div>
-
-          <Avatar className="h-8 w-8">
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
+ 
         </div>
       </header>
-
-      <div className="flex h-[calc(100vh-57px)]">
-        {/* Sidebar */}
-        {showSidebar && (
-          <aside className="w-64 border-r p-4 flex flex-col">
-            <Button variant="outline" className="mb-4 justify-start">
-              <MessageSquare className="mr-2 h-4 w-4" />
-              New Chat
-            </Button>
-
-            <Tabs defaultValue="history" className="flex-1">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="history">History</TabsTrigger>
-                <TabsTrigger value="saved">Saved</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="history" className="mt-4 space-y-2">
-                <div className="text-sm font-medium">Recent Conversations</div>
-                {savedConversations.map((convo) => (
-                  <div key={convo.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted cursor-pointer">
-                    <History className="h-4 w-4 text-muted-foreground" />
-                    <div className="flex-1 truncate">
-                      <div className="text-sm">{convo.title}</div>
-                      <div className="text-xs text-muted-foreground">{convo.date}</div>
-                    </div>
-                  </div>
-                ))}
-              </TabsContent>
-
-              <TabsContent value="saved" className="mt-4 space-y-2">
-                <div className="text-sm font-medium">Bookmarked Chats</div>
-                {savedConversations.slice(0, 2).map((convo) => (
-                  <div key={convo.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted cursor-pointer">
-                    <Bookmark className="h-4 w-4 text-muted-foreground" />
-                    <div className="flex-1 truncate">
-                      <div className="text-sm">{convo.title}</div>
-                      <div className="text-xs text-muted-foreground">{convo.date}</div>
-                    </div>
-                  </div>
-                ))}
-              </TabsContent>
-            </Tabs>
-
-            <div className="mt-auto space-y-2">
-              <Button variant="ghost" className="w-full justify-start">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
-                <HelpCircle className="mr-2 h-4 w-4" />
-                Help & FAQ
-              </Button>
-            </div>
-          </aside>
-        )}
-
-        {/* Main Content */}
-        <main className="flex-1 flex flex-col">
-          <div className="p-4 flex items-center">
-            <Button variant="ghost" size="icon" onClick={() => setShowSidebar(!showSidebar)} className="mr-2">
-              {showSidebar ? (
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 15 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                >
-                  <path
-                    d="M8.84182 3.13514C9.04327 3.32401 9.05348 3.64042 8.86462 3.84188L5.43521 7.49991L8.86462 11.1579C9.05348 11.3594 9.04327 11.6758 8.84182 11.8647C8.64036 12.0535 8.32394 12.0433 8.13508 11.8419L4.38508 7.84188C4.20477 7.64955 4.20477 7.35027 4.38508 7.15794L8.13508 3.15794C8.32394 2.95648 8.64036 2.94628 8.84182 3.13514Z"
-                    fill="currentColor"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              ) : (
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 15 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                >
-                  <path
-                    d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
-                    fill="currentColor"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              )}
-            </Button>
-            <div>
-              <h2 className="text-lg font-medium">Current Chat</h2>
-              <p className="text-sm text-muted-foreground">Started {format(new Date(), "MMM d, yyyy")}</p>
-            </div>
-            <div className="ml-auto flex gap-2">
-              <Button variant="outline" size="sm">
-                <Bookmark className="mr-2 h-4 w-4" />
-                Save
-              </Button>
-              <Button variant="outline" size="sm">
-                <User className="mr-2 h-4 w-4" />
-                Share
-              </Button>
-            </div>
-          </div>
-
-          <Separator />
-
-          <ScrollArea className="flex-1 p-4">
-            <div className="space-y-4 max-w-3xl mx-auto">
-              {/* Welcome message */}
-              {messages.length === 0 && (
-                <div className="bg-muted/50 rounded-lg p-6 text-center space-y-4">
-                  <Sparkles className="h-8 w-8 text-primary mx-auto" />
-                  <h3 className="text-xl font-medium">Welcome to Angola AI</h3>
-                  <p className="text-muted-foreground">
-                    I'm here to help with your questions, provide information, and assist with various tasks. What would
-                    you like to talk about today?
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container-center px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white">
+                    Introducing NexusAI
+                  </h1>
+                  <p className="max-w-[600px] text-gray-400 md:text-xl">
+                    The next generation of artificial intelligence that understands, learns, and adapts to your needs
+                    with unprecedented accuracy.
                   </p>
-                  <div className="grid grid-cols-2 gap-2 mt-4">
-                    <Button variant="outline" onClick={() => setInput("What can you help me with?")}>
-                      What can you help me with?
-                    </Button>
-                    <Button variant="outline" onClick={() => setInput("Tell me about yourself")}>
-                      Tell me about yourself
-                    </Button>
-                    <Button variant="outline" onClick={() => setInput("How do I use this chat?")}>
-                      How do I use this chat?
-                    </Button>
-                    <Button variant="outline" onClick={() => setInput("What's new in AI?")}>
-                      What's new in AI?
-                    </Button>
-                  </div>
                 </div>
-              )}
-
-              {/* Chat messages */}
-              {messages.map((message) => (
-                <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className="flex items-start gap-3 max-w-[80%]">
-                    {message.role !== "user" && (
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-primary text-primary-foreground">AI</AvatarFallback>
-                      </Avatar>
-                    )}
-                    <div
-                      className={`rounded-lg px-4 py-2 ${
-                        message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
-                      }`}
-                    >
-                      <p className="whitespace-pre-wrap">{message.content}</p>
-                      <div
-                        className={`text-xs mt-1 ${message.role === "user" ? "text-primary-foreground/70" : "text-muted-foreground"}`}
-                      >
-                        {format(message.timestamp, "h:mm a")}
-                      </div>
-                    </div>
-                    {message.role === "user" && (
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-slate-200">U</AvatarFallback>
-                      </Avatar>
-                    )}
-                  </div>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button size="lg">Try It Now</Button>
+                  <Button size="lg" variant="outline">
+                    Learn More
+                  </Button>
                 </div>
-              ))}
-
-              {/* Loading indicator */}
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="flex items-start gap-3 max-w-[80%]">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary text-primary-foreground">AI</AvatarFallback>
-                    </Avatar>
-                    <div className="rounded-lg px-4 py-2 bg-muted">
-                      <div className="flex items-center gap-1.5">
-                        <div className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-pulse"></div>
-                        <div
-                          className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-pulse"
-                          style={{ animationDelay: "0.2s" }}
-                        ></div>
-                        <div
-                          className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-pulse"
-                          style={{ animationDelay: "0.4s" }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
+              </div>
+              <div className="flex items-center justify-center">
+                <div className="relative aspect-square w-full max-w-[400px] overflow-hidden rounded-xl bg-gradient-to-br from-red-600 to-black p-1">
+                  <Image
+                    src="/placeholder.svg?height=400&width=400"
+                    width={300}
+                    height={300}
+                    alt="AI Visualization"
+                    className="rounded-lg object-cover"
+                  />
                 </div>
-              )}
-            </div>
-          </ScrollArea>
-
-          {/* Input area */}
-          <div className="border-t p-4">
-            <form onSubmit={handleSubmit} className="flex gap-2 max-w-3xl mx-auto">
-              <Input
-                placeholder="Type your message..."
-                value={input}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="flex-1"
-              />
-              <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
-                <SendIcon className="h-4 w-4" />
-              </Button>
-            </form>
-            <div className="text-xs text-center text-muted-foreground mt-2 max-w-3xl mx-auto">
-              Angola AI may produce inaccurate information about people, places, or facts.
-              <Button variant="link" size="sm" className="h-auto p-0 text-xs">
-                Learn more
-              </Button>
+              </div>
             </div>
           </div>
-        </main>
-      </div>
+        </section>
+
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
+          <div className="container-center px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-red-600 px-3 py-1 text-sm text-white">Revolutionary</div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Key Features</h2>
+                <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  NexusAI brings cutting-edge capabilities that redefine what's possible with artificial intelligence
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+              <Card className="bg-gray-800 text-white">
+                <CardHeader>
+                  <Cpu className="h-10 w-10 text-red-600 mb-2" />
+                  <CardTitle>Advanced Neural Processing</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Multi-layered neural networks that process information similar to the human brain.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-gray-800 text-white">
+                <CardHeader>
+                  <Zap className="h-10 w-10 text-red-600 mb-2" />
+                  <CardTitle>Real-time Learning</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Continuously improves through interactions, adapting to new information instantly.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-gray-800 text-white">
+                <CardHeader>
+                  <BarChart3 className="h-10 w-10 text-red-600 mb-2" />
+                  <CardTitle>Predictive Analytics</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Forecasts trends and outcomes with unprecedented accuracy based on historical data.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-gray-800 text-white">
+                <CardHeader>
+                  <Globe className="h-10 w-10 text-red-600 mb-2" />
+                  <CardTitle>Multilingual Understanding</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Comprehends and generates content in over 100 languages with native-level fluency.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-gray-800 text-white">
+                <CardHeader>
+                  <Lock className="h-10 w-10 text-red-600 mb-2" />
+                  <CardTitle>Enhanced Security</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Built-in privacy protections and security measures to keep your data safe.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              <Card className="bg-gray-800 text-white">
+                <CardHeader>
+                  <Brain className="h-10 w-10 text-red-600 mb-2" />
+                  <CardTitle>Contextual Awareness</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Understands nuance, context, and implicit meaning in communication.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        <section id="capabilities" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container-center px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Capabilities</h2>
+                <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Explore what NexusAI can do across different domains and applications
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto max-w-3xl py-12">
+              <Tabs defaultValue="business" className="w-full">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="business">Business</TabsTrigger>
+                  <TabsTrigger value="healthcare">Healthcare</TabsTrigger>
+                  <TabsTrigger value="education">Education</TabsTrigger>
+                </TabsList>
+                <TabsContent value="business" className="p-4 bg-gray-800 text-white">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Market Analysis</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          Process vast amounts of market data to identify trends, opportunities, and potential risks.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Customer Insights</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          Analyze customer behavior and feedback to provide actionable insights for business growth.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Process Automation</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Streamline workflows and automate repetitive tasks to increase operational efficiency.</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Decision Support</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Provide data-driven recommendations to support strategic business decisions.</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+                <TabsContent value="healthcare" className="p-4 bg-gray-800 text-white">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Diagnostic Assistance</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          Support medical professionals with accurate analysis of patient data and diagnostic imaging.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Treatment Planning</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Analyze medical literature and patient history to suggest personalized treatment options.</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Drug Discovery</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          Accelerate pharmaceutical research by predicting molecular interactions and drug efficacy.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Patient Monitoring</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Continuously analyze patient vitals and alert healthcare providers to potential issues.</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+                <TabsContent value="education" className="p-4 bg-gray-800 text-white">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Personalized Learning</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Adapt educational content to individual learning styles, pace, and knowledge gaps.</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Automated Assessment</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>Provide instant, detailed feedback on assignments and assessments to support learning.</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Content Creation</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          Generate educational materials tailored to specific curriculum requirements and learning
+                          objectives.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gray-800 text-white">
+                      <CardHeader>
+                        <CardTitle>Research Assistance</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          Help researchers analyze data, identify patterns, and generate insights from complex
+                          information.
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
+        </section>
+
+        <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
+          <div className="container-center px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">See NexusAI in Action</h2>
+                <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Experience the power and versatility of our AI through interactive demonstrations
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto max-w-4xl py-12">
+              <div className="rounded-xl border border-gray-700 bg-gray-800 shadow-lg">
+                <div className="p-1 bg-gray-900 rounded-t-xl flex items-center">
+                  <div className="flex space-x-2 ml-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="mx-auto text-sm text-gray-400">NexusAI Demo</div>
+                </div>
+                <div className="p-6 h-[400px] flex items-center justify-center">
+                  <div className="text-center space-y-4">
+                    <Brain className="h-16 w-16 text-red-600 mx-auto animate-pulse" />
+                    <h3 className="text-xl font-medium text-white">Interactive Demo Coming Soon</h3>
+                    <p className="text-gray-400">
+                      Our team is putting the finishing touches on an interactive demo that will showcase the full
+                      capabilities of NexusAI.
+                    </p>
+                    <Button>Join Waitlist</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container-center px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">Pricing Plans</h2>
+                <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Choose the perfect plan for your needs with our flexible pricing options
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl gap-6 py-12 lg:grid-cols-3">
+              {/* Free Plan */}
+              <Card className="flex flex-col bg-gray-800 text-white">
+                <CardHeader>
+                  <CardTitle className="text-xl">Free</CardTitle>
+                  <CardDescription>For individuals exploring AI capabilities</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="text-4xl font-bold mb-2">$0</div>
+                  <p className="text-sm text-gray-400 mb-6">Forever free</p>
+                  <ul className="space-y-2 mb-6">
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Basic AI capabilities</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>100 queries per month</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Community support</span>
+                    </li>
+                    <li className="flex items-center text-gray-400">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2"
+                      >
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                      </svg>
+                      <span>Advanced features</span>
+                    </li>
+                    <li className="flex items-center text-gray-400">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2"
+                      >
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                      </svg>
+                      <span>API access</span>
+                    </li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full" variant="outline">
+                    Get Started
+                  </Button>
+                </CardFooter>
+              </Card>
+
+              {/* Pro Plan */}
+              <Card className="flex flex-col border-red-600 relative bg-gray-800 text-white">
+                <div className="absolute top-0 right-0 rounded-bl-lg rounded-tr-lg bg-red-600 px-3 py-1 text-xs font-bold text-white">
+                  POPULAR
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-xl">Professional</CardTitle>
+                  <CardDescription>For professionals and small teams</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="text-4xl font-bold mb-2">$49</div>
+                  <p className="text-sm text-gray-400 mb-6">per user / month</p>
+                  <ul className="space-y-2 mb-6">
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>All Free features</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Unlimited queries</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Priority support</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Advanced analytics</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>API access</span>
+                    </li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full">Subscribe Now</Button>
+                </CardFooter>
+              </Card>
+
+              {/* Enterprise Plan */}
+              <Card className="flex flex-col bg-gray-800 text-white">
+                <CardHeader>
+                  <CardTitle className="text-xl">Enterprise</CardTitle>
+                  <CardDescription>For organizations with advanced needs</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="text-4xl font-bold mb-2">Custom</div>
+                  <p className="text-sm text-gray-400 mb-6">Contact for pricing</p>
+                  <ul className="space-y-2 mb-6">
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>All Professional features</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Dedicated account manager</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>24/7 premium support</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>Custom integrations</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 mr-2 text-red-600"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <span>SLA guarantees</span>
+                    </li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full" variant="outline">
+                    Contact Sales
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+            <div className="text-center mt-6">
+              <p className="text-gray-400">All plans include a 14-day free trial. No credit card required.</p>
+            </div>
+          </div>
+        </section>
+
+        <section  className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
+          <div className="container-center px-4 md:px-6">
+          <div className="lg:justify-center flex gap-6 lg:grid-cols-2 lg:gap-12">
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white">
+                    Ready to transform your workflow?
+                  </h2>
+                  <p className="max-w-[600px] text-gray-400 md:text-xl">
+                    Join thousands of organizations already leveraging NexusAI to drive innovation and efficiency.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button size="lg">Get Started</Button>
+                  <Button size="lg" variant="outline">
+                    Schedule a Demo
+                  </Button>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center space-y-4">
+                <ul className="grid gap-3">
+                  <li className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <span className="text-white">Free 14-day trial with full access to all features</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <span className="text-white">Dedicated support team to help you get started</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <span className="text-white">No credit card required </span>
+                    <span className="text-white">No credit card required to start your trial</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <span className="text-white">Flexible pricing plans to fit your needs</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="w-full border-t border-gray-800 py-6 md:py-0">
+        <div className="container-center flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+          <div className="flex gap-2 items-center text-lg font-semibold">
+            <Brain className="h-5 w-5 text-red-600" />
+            <span>NexusAI</span>
+          </div>
+          <p className="text-center text-sm leading-loose text-gray-400 md:text-left">
+            © 2025 NexusAI. All rights reserved.
+          </p>
+          <div className="flex gap-4">
+            <Link href="#" className="text-sm text-gray-400 hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="#" className="text-sm text-gray-400 hover:text-white">
+              Terms of Service
+            </Link>
+            <Link href="#" className="text-sm text-gray-400 hover:text-white">
+              Contact
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
