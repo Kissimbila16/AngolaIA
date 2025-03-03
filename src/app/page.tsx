@@ -48,7 +48,7 @@ com precisão sem precedentes.
         height={500}
         autoPlay
         muted
-        className="rounded-lg object-cover lg:mt-24 h-[450px] w-[600px]"
+        className="rounded-lg object-cover lg:mt-4 h-[350px] w-[500px]"
         src="./bg.mp4"
       >
       </video>
