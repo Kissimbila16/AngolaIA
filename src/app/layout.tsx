@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,12 +11,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Angola IA",
-  description: "Modelo de IA angolano",
-  authors:[{name:'Domingos kissimbila',url:'#'}],
-  keywords:['IA','IA angola','AngolaIA','Modelos de IA','IA angolana','angola IA']
-};
 
 export default function RootLayout({
   children,
@@ -26,6 +19,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+            <head>
+    <meta charSet="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Angola IA</title>
+    <link rel="icon" type="image/x-icon" href="brain.svg"/>
+    <meta name="description" content="Modelo de IA angolano."/>
+    <meta name="keywords" content="IA,IA angola,AngolaIA,Modelos de IA,IA angolana,angola IA"/>
+
+    <meta property="og:title" content="Angola IA"/>
+    <meta property="og:description" content="Modelo de IA angolano."/>
+    <meta property="og:image" content="./brain.svg"/>
+    <meta property="og:url" content="https://api-biv.vercel.app"/>
+    <meta property="og:type" content="website"/>
+
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Angola IA"/>
+    <meta name="twitter:description" content="Modelo de IA angolano."/>
+    <meta name="twitter:image" content="./brain.svg"/>
+
+</head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

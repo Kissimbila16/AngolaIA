@@ -100,12 +100,13 @@ export default function ChatPage() {
     },
     [input, isLoading, messages],
   )
-
+  let rad = Math.floor(Math.random() * ( 3 - 1 + 1)) + 1;
   // Example saved conversations
   const savedConversations = [
-    { id: 1, title: "Project Ideas", date: "2 days ago" },
-    { id: 2, title: "Code Review Help", date: "1 week ago" },
-    { id: 3, title: "Learning Resources", date: "2 weeks ago" },
+    { id: rad, title: "Project Ideas", date: "2 days ago" },
+    { id: rad, title: "Code Review Help", date: "1 week ago" },
+    { id: rad, title: "Code Review Help", date: "1 week ago" },
+    { id: rad, title: "Learning Resources", date: "2 weeks ago" },
   ]
 
   return (
@@ -140,19 +141,20 @@ export default function ChatPage() {
           <aside className="w-64 border-r p-4 flex flex-col">
             <Button variant="outline" className="mb-4 justify-start">
               <MessageSquare className="mr-2 h-4 w-4" />
-              New Chat
-            </Button>
+              NewChat
+</Button>
 
-            <Tabs defaultValue="history" className="flex-1">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="history">History</TabsTrigger>
-                <TabsTrigger value="saved">Saved</TabsTrigger>
-              </TabsList>
+<Tabs defaultValue="history" className="flex-1">
+<TabsList className="grid w-full grid-cols-2">
+<TabsTrigger value="history">Histórico</TabsTrigger>
+<TabsTrigger value="saved">Salvo</TabsTrigger>
+</TabsList>
 
-              <TabsContent value="history" className="mt-4 space-y-2">
-                <div className="text-sm font-medium">Recent Conversations</div>
+<TabsContent value="history" className="mt-4 space-y-2">
+<div className="text-sm font-medium">Conversas recentes</div>
                 {savedConversations.map((convo) => (
-                  <div key={convo.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted cursor-pointer">
+               
+                  <div key={convo.id + convo.title} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted cursor-pointer">
                     <History className="h-4 w-4 text-muted-foreground" />
                     <div className="flex-1 truncate">
                       <div className="text-sm">{convo.title}</div>
@@ -163,7 +165,7 @@ export default function ChatPage() {
               </TabsContent>
 
               <TabsContent value="saved" className="mt-4 space-y-2">
-                <div className="text-sm font-medium">Bookmarked Chats</div>
+              <div className="text-sm font-medium">Bate-papos marcados</div>
                 {savedConversations.slice(0, 2).map((convo) => (
                   <div key={convo.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted cursor-pointer">
                     <Bookmark className="h-4 w-4 text-muted-foreground" />
@@ -178,12 +180,8 @@ export default function ChatPage() {
 
             <div className="mt-auto space-y-2">
               <Button variant="ghost" className="w-full justify-start">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
                 <HelpCircle className="mr-2 h-4 w-4" />
-                Help & FAQ
+                Ajuda & FAQ
               </Button>
             </div>
           </aside>
@@ -228,9 +226,9 @@ export default function ChatPage() {
               )}
             </Button>
             <div>
-              <h2 className="text-lg font-medium">Current Chat</h2>
-              <p className="text-sm text-muted-foreground">Started {format(new Date(), "MMM d, yyyy")}</p>
-            </div>
+            <h2 className="text-lg font-medium">Bate-papo atual</h2>
+<p className="text-sm text-muted-foreground">Iniciado {format(new Date(), "MMM d, aaaa")}</p>
+</div>
           
           </div>
 
@@ -244,24 +242,24 @@ export default function ChatPage() {
                   <Sparkles className="h-8 w-8 text-primary mx-auto" />
                   <h3 className="text-xl font-medium">Welcome to AngolaAI</h3>
                   <p className="text-muted-foreground">
-                    I'm here to help with your questions, provide information, and assist with various tasks. What would
-                    you like to talk about today?
-                  </p>
-                  <div className="grid grid-cols-2 gap-2 mt-4">
-                    <Button variant="outline" onClick={() => setInput("What can you help me with?")}>
-                      What can you help me with?
-                    </Button>
-                    <Button variant="outline" onClick={() => setInput("Tell me about yourself")}>
-                      Tell me about yourself
-                    </Button>
-                    <Button variant="outline" onClick={() => setInput("How do I use this chat?")}>
-                      How do I use this chat?
-                    </Button>
-                    <Button variant="outline" onClick={() => setInput("What's new in AI?")}>
-                      What's new in AI?
-                    </Button>
-                  </div>
-                </div>
+Estou aqui para ajudar com suas perguntas, fornecer informações e auxiliar em várias tarefas. Sobre o que
+você gostaria de falar hoje?
+</p>
+<div className="grid grid-cols-2 gap-2 mt-4">
+<Button variant="outline" onClick={() => setInput("Em que você pode me ajudar?")}>
+Em que você pode me ajudar?
+</Button>
+<Button variant="outline" onClick={() => setInput("Fale-me sobre você")}>
+Fale-me sobre você
+</Button>
+<Button variant="outline" onClick={() => setInput("Como uso este chat?")}>
+Como uso este chat?
+</Button>
+<Button variant="outline" onClick={() => setInput("O que há de novo na IA?")}>
+O que há de novo na IA?
+</Button>
+</div>
+</div>
               )}
 
               {/* Chat messages */}
@@ -330,15 +328,15 @@ export default function ChatPage() {
                 disabled={isLoading}
                 className="flex-1"
               />
-              <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+              <Button type="submit" size="icon" variant="outline" disabled={isLoading || !input.trim()}>
                 <SendIcon className="h-4 w-4" />
               </Button>
             </form>
             <div className="text-xs text-center text-muted-foreground mt-2 max-w-3xl mx-auto">
-              AngolaAI may produce inaccurate information about people, places, or facts.
-              <Button variant="link" size="sm" className="h-auto p-0 text-xs">
-                Learn more
-              </Button>
+            AngolaAI pode produzir informações imprecisas sobre pessoas, lugares ou fatos.
+<Button variant="link" size="sm" className="h-auto p-0 text-xs">
+Saiba mais
+</Button>
             </div>
           </div>
         </main>
