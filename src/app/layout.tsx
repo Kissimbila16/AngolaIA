@@ -30,7 +30,8 @@ export default function RootLayout({
     <meta property="og:title" content="Angola IA"/>
     <meta property="og:description" content="Modelo de IA angolano."/>
     <meta property="og:image" content="./brain.svg"/>
-    <meta property="og:url" content="https://api-biv.vercel.app"/>
+    <meta property="og:url" content="https://dunamisia.vercel.app/duna.IA"/>
+    <meta name="google-site-verification" content="MHvRfd-7iXCvpiDiV2sLuCEBgjIjgywzAh9CRNkLV7s" />
     <meta property="og:type" content="website"/>
 
     <meta name="twitter:card" content="summary_large_image"/>
